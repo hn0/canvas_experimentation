@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fib webgl test</title>
+
+    <script type="text/javascript" src="js/three.min.js"></script>
+    <script type="text/javascript" src="js/fib.js"></script>
+
+    <script type="text/javascript">
+        document.addEventListener( 'DOMContentLoaded', function() {
+            
+            var ready = function( timeout ){
+                if( window.fib ){
+                    window.fib.init();
+                }
+                else {
+                    timeout += 250;
+                    setTimeout( ready, timeout, timeout );
+                }
+            }
+            ready( 0 );
+
+        });
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>
