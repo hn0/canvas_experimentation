@@ -3,18 +3,25 @@
 
     var cube = function( mat )
     {
-        this.size = [ 'width', 'height', 'depth' ];
-        this.geom = new THREE.BoxGeometry( .1, .1, .1 );
-        this.mesh = new THREE.Mesh( this.geom, mat );
-        
+        this.rfnc  = { 
+            x: (x)=>{ return x+.1 },
+            y: (y)=>{ return Math.sin( y - .1); },
+            z: (z)=>{ return Math.cos( z + .1); },
+        }
+        this.geom  = new THREE.BoxGeometry( 1, 1, 1 );
+        this.mesh  = new THREE.Mesh( this.geom, mat );
         this.vents = {};
+        this.mesh.scale.multiply( new THREE.Vector3( .1, .1, .1 ) );
+        console.log( this.mesh.rotation )
     }
 
     cube.prototype.update = function()
     {
-        if( this.geom.parameters.width < 200 ){
-            this.size.forEach( (k) => { this.geom.parameters[k] += 5; } );
-            // this.geom.rotation.x += .2;
+        if( this.mesh.scale.x < 1 ){
+            this.mesh.scale.add( new THREE.Vector3( .05, .05, .05 ) );
+            Object.keys( this.rfnc ).forEach( (k) => {
+                this.mesh.rotation[k] = this.rfnc[k]( this.mesh.rotation[k] );
+            });
         }
         else {
             this.trigger( 'die' );
@@ -46,7 +53,7 @@
         this.boxes  = [];
         this.scene  = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000);
-        this.camera.position.z = 4;
+        this.camera.position.z = 15;
 
         this.renderer = new THREE.WebGLRenderer({});
         this.renderer.setClearColor( '#fff' );
@@ -71,6 +78,7 @@
     fib.prototype.animate = function()
     {
 
+        // this.camera.position.z -= .5;
         this.renderer.render( this.scene, this.camera );
         this.boxes.forEach( (x) => { x.update(); } );
         console.log( 'here!' )
