@@ -1,0 +1,1 @@
+A silly experimentation with webgl technology heavily based on help provided by three.js [https://threejs.org/] library

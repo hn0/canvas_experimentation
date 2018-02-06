@@ -6,19 +6,19 @@
 
     var cube = function( mat, i, n )
     {
-        let scale = Math.min( w / n, 1 )
+        let size  = Math.min( w / n, 2 )
         let seed  = Math.random() * .3;
-        this.rfnc  = { 
+        this.rfnc = { 
             x: (x)=>{ return x + seed },
             y: (y)=>{ return Math.sin( y - seed); },
             z: (z)=>{ return Math.cos( z + seed); },
         }
-        this.geom  = new THREE.BoxBufferGeometry( scale, scale, scale );
+        this.geom  = new THREE.BoxBufferGeometry( size * .5, size * .5, size * .5 );
         this.mesh  = new THREE.Mesh( this.geom, mat );
         this.vents = {};
         this.mesh.scale.multiply( new THREE.Vector3( .1, .1, .1 ) );
 
-        this.mesh.position.x = (i - n * .5 ) * 2 * scale;
+        this.mesh.position.x = (i - n * .5 ) * size;
 
         this.animfnc = this.scalefnc;
     }
@@ -96,7 +96,8 @@
         dirlight.position.set( 1, 1, 1 ).normalize();
         this.scene.add( dirlight );
 
-        this.mat = new THREE.MeshStandardMaterial( { color: '#406030' } );
+        this.mat = new THREE.MeshStandardMaterial( { color: '#60cf40' } );
+
         this.increment();
         this.animate();
     };
@@ -124,7 +125,7 @@
         }
 
         this.seq.unshift( n );
-        if( this.seq.length > 12 ){
+        if( this.seq.length > 14 ){
             this.seq = [0, 1];
         }
     };
